@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>İstek Listem</title>
+<style>
+:root{--bg:#f5f3ff;--card:#fff;--text:#1e1b3a;--muted:#6b6b8a;--line:#e4e0f7;--accent:#6d4aff;--accent2:#ff5fa2;--ok:#12a36b;--danger:#e5484d;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);color-scheme:light}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#12101f;--card:#1c1930;--text:#f1eeff;--muted:#a09cc4;--line:#2d2950;--accent:#8c70ff;--accent2:#ff7ab5;--ok:#34d399;--danger:#ff7075;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#12101f;--card:#1c1930;--text:#f1eeff;--muted:#a09cc4;--line:#2d2950;--accent:#8c70ff;--accent2:#ff7ab5;--ok:#34d399;--danger:#ff7075;color-scheme:dark}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;min-height:100vh}
+.wrap{max-width:760px;margin:0 auto;padding:20px 16px 60px}
+header{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:8px 0 18px}
+h1{font-size:30px;margin:0;color:#fff;text-shadow:0 2px 12px rgba(0,0,0,.25)}
+.hero{position:relative;overflow:hidden;border-radius:26px;padding:24px 20px;min-height:170px;align-items:flex-start;background:linear-gradient(135deg,var(--accent),var(--accent2)) center/cover;color:#fff;box-shadow:0 14px 40px rgba(109,74,255,.28)}
+.hero .sub{color:rgba(255,255,255,.92)}
+.heroTxt{position:relative;z-index:1}
+.hbtns{position:relative;z-index:1;display:flex;gap:8px}
+.hero svg{position:absolute;right:-6px;bottom:-8px;width:58%;max-width:300px;pointer-events:none}
+.sub{color:var(--muted);font-size:14px;margin-top:2px}
+.theme{border:1px solid var(--line);background:var(--card);color:var(--text);border-radius:12px;padding:8px 12px;cursor:pointer;font-size:16px}
+.box{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:16px;box-shadow:0 8px 30px rgba(109,74,255,.08)}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}
+.grid .full{grid-column:1/-1}
+input,select{width:100%;padding:13px 14px;border-radius:12px;border:1px solid var(--line);background:var(--bg);color:var(--text);font-size:16px;outline:none}
+input:focus,select:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(109,74,255,.18)}
+.row{display:flex;gap:8px}
+.btn{border:0;border-radius:12px;padding:13px 18px;font-size:15px;font-weight:600;cursor:pointer;color:#fff;background:linear-gradient(135deg,var(--accent),var(--accent2));white-space:nowrap;text-decoration:none;display:inline-flex;align-items:center;justify-content:center}
+.btn:active{transform:scale(.97)}
+.ghost{background:transparent;color:var(--muted);border:1px solid var(--line)}
+.bar{display:flex;justify-content:space-between;align-items:center;margin:22px 4px 10px;gap:10px;flex-wrap:wrap}
+.total{font-size:15px;color:var(--muted)}.total b{color:var(--text);font-size:18px}
+.item{display:flex;gap:14px;align-items:center;background:var(--card);border:1px solid var(--line);border-radius:20px;padding:14px;margin-bottom:12px;box-shadow:0 6px 20px rgba(109,74,255,.07);transition:transform .15s}
+.item:hover{transform:translateY(-2px)}
+.ico{flex:none;width:68px;height:68px;border-radius:16px;display:grid;place-items:center;color:#fff;font-weight:700;font-size:24px;cursor:pointer;background:linear-gradient(135deg,var(--accent),var(--accent2))}
+.ico.ph{background-size:cover;background-position:center;border:1px solid var(--line)}
+.info{flex:1;min-width:0}
+.name{font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.meta{font-size:13px;color:var(--muted);margin-top:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.price{font-weight:700;font-size:17px;margin-top:4px}
+.acts{display:flex;flex-direction:column;gap:6px;align-items:stretch}
+.acts .btn{padding:9px 14px;font-size:14px}
+.mini{border:1px solid var(--line);background:transparent;color:var(--muted);border-radius:10px;padding:6px 10px;font-size:13px;cursor:pointer}
+.mini:hover{color:var(--danger);border-color:var(--danger)}
+.done{opacity:.55}.done .name{text-decoration:line-through}
+.empty{text-align:center;color:var(--muted);padding:40px 10px}
+.empty .big{font-size:46px}
+.err{color:var(--danger);font-size:13px;margin-top:8px;min-height:16px}
+body{background:radial-gradient(900px 500px at 90% -10%,rgba(255,95,162,.18),transparent 60%),radial-gradient(800px 500px at -10% 10%,rgba(109,74,255,.18),transparent 60%),var(--bg);background-attachment:fixed}
+.box{border-radius:26px;padding:20px}
+.ttl{font-weight:700;font-size:16px;margin:0 2px 12px}
+.bar{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:12px 16px;margin:20px 0 14px}
+.price{display:inline-block;margin-top:6px;padding:3px 12px;border-radius:999px;font-size:16px;background:linear-gradient(135deg,rgba(109,74,255,.14),rgba(255,95,162,.14));color:var(--accent)}
+.btn:hover{filter:brightness(1.08)}
+.btn:not(.ghost){box-shadow:0 6px 16px rgba(109,74,255,.3)}
+.item{animation:pop .3s ease backwards}
+@keyframes pop{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.hero svg{animation:fl 6s ease-in-out infinite}
+@keyframes fl{50%{transform:translateY(-7px)}}
+@media (max-width:520px){.item{flex-wrap:wrap}.acts{flex-direction:row;width:100%}.acts .btn{flex:1}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="hero" id="hero">
+    <div class="heroTxt"><h1>İstek Listem</h1><div class="sub">Almak istediklerin tek yerde</div></div>
+    <svg viewBox="0 0 280 160" id="heroArt" aria-hidden="true"><rect x="18" y="62" width="72" height="88" rx="12" fill="#fff" opacity=".95"/><path d="M38 62V50a16 16 0 0 1 32 0v12" fill="none" stroke="#fff" stroke-width="6" stroke-linecap="round"/><rect x="100" y="30" width="84" height="120" rx="14" fill="#ffe1f0"/><path d="M124 30V18a18 18 0 0 1 36 0v12" fill="none" stroke="#ffe1f0" stroke-width="6" stroke-linecap="round"/><path d="M142 106c-18-12-24-22-24-31a12 12 0 0 1 24-3a12 12 0 0 1 24 3c0 9-6 19-24 31z" fill="#ff5fa2"/><rect x="194" y="84" width="72" height="66" rx="10" fill="#fff3c4"/><rect x="226" y="84" width="8" height="66" fill="#ff5fa2"/><rect x="194" y="110" width="72" height="8" fill="#ff5fa2"/><path d="M230 84c-14-18-30-6-18 0M230 84c14-18 30-6 18 0" fill="none" stroke="#ff5fa2" stroke-width="5" stroke-linecap="round"/><circle cx="196" cy="40" r="5" fill="#fff"/><circle cx="250" cy="58" r="3.5" fill="#fff"/><circle cx="12" cy="40" r="3.5" fill="#fff"/></svg>
+    <div class="hbtns"><button class="theme" id="heroPick" title="Kapak fotoğrafı seç">📷</button><button class="theme" id="theme" title="Tema">🌓</button></div>
+    <input type="file" id="heroFile" accept="image/*" hidden>
+  </header>
+
+  <div class="box">
+    <div class="ttl">✨ Yeni ürün ekle</div>
+    <input id="url" type="url" inputmode="url" placeholder="Ürün linkini yapıştır (https://...)" autocomplete="off">
+    <div class="grid">
+      <input id="name" class="full" placeholder="Ürün adı (boş bırakırsan linkten alınır)" autocomplete="off">
+      <input id="price" class="full" inputmode="decimal" placeholder="Fiyat ₺ (örn. 1299,90)" autocomplete="off">
+      
+      <label class="btn ghost full" style="cursor:pointer"><span id="photoTxt">📷 Ürün fotoğrafı ekle</span><input type="file" id="photo" accept="image/*" hidden></label>
+      <input type="file" id="itemFile" accept="image/*" hidden>
+      <button class="btn full" id="add">＋ Listeye ekle</button>
+    </div>
+    <div class="err" id="err"></div>
+  </div>
+
+  <div class="bar">
+    <div class="total">Toplam: <b id="total">0 ₺</b> <span id="count"></span></div>
+    <button class="btn ghost" id="clear" style="padding:8px 12px;font-size:13px">Satın alınanları temizle</button>
+  </div>
+  <div id="list"></div>
+  
+</div>
+
+<script>
+(function(){
+  var KEY="istek-listem-v1", items=[];
+  var $=function(id){return document.getElementById(id)};
+  function load(){try{var r=localStorage.getItem(KEY);items=r?JSON.parse(r):[];if(!Array.isArray(items))items=[]}catch(e){items=[]}}
+  function save(){try{localStorage.setItem(KEY,JSON.stringify(items));return true}catch(e){$("err").textContent="Kayıt başarısız: depolama dolu olabilir, bazı fotoğrafları silmeyi dene.";return false}}
+  function shrink(file,max,cb){
+    var fr=new FileReader();
+    fr.onload=function(){var im=new Image();im.onload=function(){
+      var s=Math.min(1,max/Math.max(im.width,im.height)),c=document.createElement("canvas");
+      c.width=Math.round(im.width*s);c.height=Math.round(im.height*s);
+      c.getContext("2d").drawImage(im,0,0,c.width,c.height);cb(c.toDataURL("image/jpeg",.78))};
+      im.onerror=function(){cb(null)};im.src=fr.result};
+    fr.onerror=function(){cb(null)};fr.readAsDataURL(file);
+  }
+  try{var t=localStorage.getItem("istek-tema");if(t)document.documentElement.setAttribute("data-theme",t)}catch(e){}
+  $("theme").onclick=function(){
+    var dark=document.documentElement.getAttribute("data-theme")==="dark"||(!document.documentElement.getAttribute("data-theme")&&matchMedia("(prefers-color-scheme:dark)").matches);
+    var n=dark?"light":"dark";document.documentElement.setAttribute("data-theme",n);
+    try{localStorage.setItem("istek-tema",n)}catch(e){}
+  };
+  function norm(u){
+    u=u.trim();if(!u)return null;
+    if(!/^https?:\/\//i.test(u))u="https://"+u;
+    try{var o=new URL(u);if(o.protocol!=="http:"&&o.protocol!=="https:")return null;return o.href}catch(e){return null}
+  }
+  function host(u){try{return new URL(u).hostname.replace(/^www\./,"")}catch(e){return u}}
+  function guessName(u){
+    try{
+      var p=new URL(u).pathname.split("/").filter(Boolean).filter(function(s){return !/^\d+$/.test(s)&&s.length>3});
+      var s=p.sort(function(a,b){return b.length-a.length})[0];
+      if(s){s=decodeURIComponent(s).replace(/\.(html?|php|aspx?)$/i,"").replace(/[-_+]+/g," ").trim();
+        return s.charAt(0).toUpperCase()+s.slice(1)}
+    }catch(e){}
+    return host(u);
+  }
+  function parsePrice(s){
+    s=String(s).replace(/[^\d.,]/g,"");if(!s)return null;
+    var lc=s.lastIndexOf(","),ld=s.lastIndexOf(".");
+    if(lc>-1&&ld>-1){s=lc>ld?s.replace(/\./g,"").replace(",","."):s.replace(/,/g,"")}
+    else if(lc>-1){s=/,\d{1,2}$/.test(s)?s.replace(",","."):s.replace(/,/g,"")}
+    else if(ld>-1&&!/\.\d{1,2}$/.test(s)){s=s.replace(/\./g,"")}
+    var n=parseFloat(s);return isFinite(n)?n:null;
+  }
+  function fmt(n,c){return n.toLocaleString("tr-TR",{minimumFractionDigits:n%1?2:0,maximumFractionDigits:2})+" "+c}
+  function add(){
+    var err=$("err");err.textContent="";
+    var u=norm($("url").value);
+    if(!u){err.textContent="Geçerli bir ürün linki gir.";return}
+    var p=parsePrice($("price").value);
+    items.unshift({id:Date.now()+"-"+Math.random().toString(36).slice(2,7),url:u,name:$("name").value.trim()||guessName(u),price:p,cur:"₺",done:false,img:curPhoto});
+    save();$("url").value="";$("name").value="";$("price").value="";curPhoto=null;$("photoTxt").textContent="📷 Ürün fotoğrafı ekle";render();
+  }
+  $("add").onclick=add;
+  ["url","name","price"].forEach(function(i){$(i).addEventListener("keydown",function(e){if(e.key==="Enter")add()})});
+  $("url").addEventListener("input",function(){
+    var u=norm($("url").value);if(u&&!$("name").value)$("name").placeholder=guessName(u)+" (otomatik)";
+  });
+  $("clear").onclick=function(){items=items.filter(function(i){return !i.done});save();render()};
+  function el(tag,cls,txt){var e=document.createElement(tag);if(cls)e.className=cls;if(txt!=null)e.textContent=txt;return e}
+  function render(){
+    var list=$("list");list.textContent="";
+    if(!items.length){
+      var em=el("div","empty");em.appendChild(el("div","big","🎁"));em.appendChild(el("div",null,"Listen boş. Yukarıdan ilk ürününü ekle!"));list.appendChild(em);
+    }
+    items.forEach(function(it){
+      var row=el("div","item"+(it.done?" done":""));
+      var ico=el("div","ico"+(it.img?" ph":""),it.img?"":host(it.url).charAt(0).toUpperCase());
+      if(it.img)ico.style.backgroundImage="url("+it.img+")";
+      ico.title="Fotoğraf ekle / değiştir";ico.onclick=function(){pendingId=it.id;$("itemFile").click()};
+      row.appendChild(ico);
+      var info=el("div","info");
+      info.appendChild(el("div","name",it.name));
+      info.appendChild(el("div","meta",host(it.url)));
+      info.appendChild(el("div","price",it.price!=null?fmt(it.price,it.cur):"Fiyat girilmedi"));
+      row.appendChild(info);
+      var acts=el("div","acts");
+      var buy=el("a","btn","Satın Al ↗");buy.href=it.url;buy.target="_blank";buy.rel="noopener noreferrer";
+      acts.appendChild(buy);
+      var r2=el("div","row");
+      var d=el("button","mini",it.done?"Geri al":"✓ Aldım");d.onclick=function(){it.done=!it.done;save();render()};
+      var x=el("button","mini","Sil");x.onclick=function(){items=items.filter(function(i){return i.id!==it.id});save();render()};
+      r2.appendChild(d);r2.appendChild(x);acts.appendChild(r2);
+      row.appendChild(acts);list.appendChild(row);
+    });
+    var sums={},n=0;
+    items.forEach(function(i){if(!i.done){n++;if(i.price!=null)sums[i.cur]=(sums[i.cur]||0)+i.price}});
+    var keys=Object.keys(sums);
+    $("total").textContent=keys.length?keys.map(function(c){return fmt(sums[c],c)}).join(" + "):"0 ₺";
+    $("count").textContent="("+n+" ürün)";
+  }
+  var curPhoto=null,pendingId=null;
+  function setHero(d){var h=$("hero");if(d){h.style.backgroundImage="linear-gradient(rgba(20,10,50,.35),rgba(20,10,50,.35)),url("+d+")";$("heroArt").style.display="none"}else{h.style.backgroundImage="";$("heroArt").style.display=""}}
+  try{setHero(localStorage.getItem("istek-kapak"))}catch(e){}
+  $("heroPick").onclick=function(){$("heroFile").click()};
+  $("heroFile").onchange=function(){var f=this.files[0];this.value="";if(!f)return;shrink(f,1000,function(d){if(!d)return;try{localStorage.setItem("istek-kapak",d)}catch(e){}setHero(d)})};
+  $("photo").onchange=function(){var f=this.files[0];this.value="";if(!f)return;shrink(f,360,function(d){curPhoto=d;$("photoTxt").textContent=d?"✓ Fotoğraf seçildi (değiştirmek için dokun)":"📷 Ürün fotoğrafı ekle"})};
+  $("itemFile").onchange=function(){var f=this.files[0];this.value="";if(!f||!pendingId)return;shrink(f,360,function(d){if(!d)return;items.forEach(function(i){if(i.id===pendingId)i.img=d});save();render()})};
+  load();render();
+})();
+</script>
+</body>
+</html>
